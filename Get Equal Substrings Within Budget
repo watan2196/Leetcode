@@ -1,0 +1,53 @@
+class Solution {
+public:
+    int ans;
+    int equalSubstring(string s, string t, int maxCost) {
+        
+        int n=s.length();
+        vector<int>prefix; prefix.resize(n);
+        
+        for(int i=0;i<n;i++)
+        {
+            prefix[i]=(i == 0)?abs(s[i] - t[i]) : prefix[i-1] + abs(s[i]-t[i]);
+        }
+        
+        
+        int l=1;
+        int h=s.length();
+        
+        while(l<=h)
+        {
+            int mid=l+floor((h-l)/2);
+            
+            if(isPossible(mid,prefix,maxCost))
+            {
+                ans=mid;
+                l=mid+1;
+            }
+            else
+                h=mid-1;
+        }
+        
+        return ans;
+    }
+    bool isPossible(int len,vector<int> &prefix,int maxCost)
+    {
+        int n=prefix.size();
+        
+        for(int i=0;i<=(n - len);i++)
+        {
+            if(i == 0)
+            {
+                if(prefix[i+ len -1] <= maxCost)
+                    return true;
+            }
+            else
+            {
+                if(prefix[i+ len -1] - prefix[i-1] <= maxCost)
+                    return true;
+            }
+        }
+        return false;
+    }
+};
+//https://leetcode.com/problems/get-equal-substrings-within-budget/description/
