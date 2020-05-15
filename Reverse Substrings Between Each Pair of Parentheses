@@ -1,0 +1,45 @@
+class Solution {
+public:
+    string reverseParentheses(string s) {
+        
+        stack<char>st;
+        string ans;
+        
+        int i=0;
+        while(i<s.length())
+        {
+        	if(s[i] != ')')
+        	{
+        		st.push(s[i]);
+        		i++;
+			}
+			else
+			{
+				string rev;
+				while(st.top() != '(')
+				{
+					rev+=st.top();
+					st.pop();
+				}
+				st.pop();
+				
+				int k=0;
+				while(k<rev.length())
+				{
+					st.push(rev[k]);
+					k++;
+				}
+				i++;
+			}
+        }
+		
+		while(st.size()>0)
+		{
+		ans=st.top()+ans;
+		st.pop();
+		}
+        
+        return ans;
+    }
+};
+//https://leetcode.com/problems/reverse-substrings-between-each-pair-of-parentheses/
